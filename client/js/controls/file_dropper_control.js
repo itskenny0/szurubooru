@@ -44,7 +44,11 @@ class FileDropperControl extends events.EventTarget {
         if (this._urlInputNode) {
             this._urlInputNode.addEventListener(
                 'keydown', e => this._evtUrlInputKeyDown(e));
-        }
+            this._urlInputNode.addEventListener(
+                'paste', e => this._evtUrlInputPaste(e));
+			this._urlInputNode.addEventListener(
+                'drop', e => this._evtUrlInputPaste(e));
+		}
         if (this._urlConfirmButtonNode) {
             this._urlConfirmButtonNode.addEventListener(
                 'click', e => this._evtUrlConfirmButtonClick(e));
@@ -135,6 +139,12 @@ class FileDropperControl extends events.EventTarget {
         this._emitUrls(this._urlInputNode.value.split(/[\r\n]/));
         this._urlInputNode.value = '';
     }
+    
+    _evtUrlInputPaste(e) {
+		window.setTimeout(() => {
+			this._evtUrlConfirmButtonClick(e);
+		})
+	}
 }
 
 module.exports = FileDropperControl;
